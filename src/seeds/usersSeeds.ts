@@ -1,38 +1,10 @@
-import { User } from "../models/user"
+import { v4 as uuid } from 'uuid'
+import { registerUser } from "../services/userService"
 import { adminPermissions, guestPermissions, teachPermissions} from "./rolesSeeds"
 
-// Define o usuário Admin com permissões de administrador.
-export let Admin: User = {
-    id          : '1',
-    name        : 'Admin',
-    email       : 'admin@email.com',
-    password    : '#Admin123',
-    role        : adminPermissions,  // Permissões de administrador.
-    registerDate: new Date(),
-    changeDate  : new Date(),
-    status      : true
-}
-
-// Define o usuário Guest com permissões de visitante.
-export let Guest: User = {
-    id          : '2',
-    name        : 'Guest',
-    email       : 'guest@email.com',
-    password    : '#Guest123',
-    role        : guestPermissions,  // Permissões de visitante.
-    registerDate: new Date(),
-    changeDate  : new Date(),
-    status      : false
-}
-
-// Define o usuário Teacher com permissões de professor.
-export let Teacher: User = {
-    id          : '3',                
-    name        : 'Teacher',
-    email       : 'teacher@email.com',
-    password    : '#Teacher123',
-    role        : teachPermissions,  // Permissões de professor.
-    registerDate: new Date(),
-    changeDate  : new Date(),
-    status      : true
+// Função para registrar os usuários seeds
+export function seedUsers(): void {
+    registerUser(uuid(), 'Admin'  , 'admin@email.com'  , '#Admin123'  , adminPermissions, true)
+    registerUser(uuid(), 'Guest'  , 'guest@email.com'  , '#Guest123'  , guestPermissions, false)
+    registerUser(uuid(), 'Teacher', 'teacher@email.com', '#Teacher123', teachPermissions, true)
 }
