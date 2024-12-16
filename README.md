@@ -100,7 +100,7 @@ node dist/index.js newUser "User" "user@email.com" "#User123" "Administrador" tr
 - **email:** E-mail válido.
 - **password:** Senha válida (mínimo de 8 caracteres, contendo letras maiúsculas, minúsculas, números e caracteres especiais).
 - **role:** Papel do usuário (Administrador, Convidado ou Professor).
-- - **status:** Status do usuário (ativo: true, inativo: false)
+- **status:** Status do usuário (ativo: true, inativo: false)
 
 ### 2. Listar todos os usuários
 Este comando exibe todos os usuários cadastrados.
