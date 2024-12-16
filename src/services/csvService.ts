@@ -13,7 +13,7 @@ export function writeUsersCSV(users: User[]): void {
         )
 
         // Escrever os dados no arquivo CSV.
-        fs.appendFileSync(filePath, userString.join('\n'))
+        fs.writeFileSync(filePath, userString.join('\n'))
     } catch (err) {
         console.log(`Error: ${(err as Error).message}`)
     }
