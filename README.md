@@ -120,7 +120,7 @@ node dist/index.js listUser "id-do-usuario"
 Este comando permite alterar as informações de um usuário existente. Você pode modificar ```nome```, ```e-mail```, ```senha```, ```papel``` ou ```status```.
 
 ```bash
-node dist/index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com" -p "NovaSenha@123" -r "Professor" -s false
+node dist/index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com" -p "#UserAtualizado123" -r "Professor" -s false
 ```
 
 - **id:** Identificador único do usuário.
