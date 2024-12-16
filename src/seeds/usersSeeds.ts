@@ -4,7 +4,7 @@ import { adminPermissions, guestPermissions, teachPermissions} from "./rolesSeed
 
 // Função para registrar os usuários seeds.
 export function seedUsers(): void {
-    registerUser(uuid(), 'Admin'  , 'admin@email.com'  , '#Admin123'  , adminPermissions, true)
-    registerUser(uuid(), 'Guest'  , 'guest@email.com'  , '#Guest123'  , guestPermissions, false)
-    registerUser(uuid(), 'Teacher', 'teacher@email.com', '#Teacher123', teachPermissions, true)
+    registerUser('Admin'  , 'admin@email.com'  , '#Admin123'  , adminPermissions, true , '1')
+    registerUser('Guest'  , 'guest@email.com'  , '#Guest123'  , guestPermissions, false, '2')
+    registerUser('Teacher', 'teacher@email.com', '#Teacher123', teachPermissions, true , '3')
 }
