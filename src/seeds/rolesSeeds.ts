@@ -22,7 +22,7 @@ export const guestPermissions: rolePermissions = {
 
 // Permissões definidas ao Professor.
 export const teachPermissions: rolePermissions = {
-    role           : Roles.GUEST,
+    role           : Roles.TEACHER,
     listProducts   : true,
     listProductsId : true,
     registerProduct: false,
