@@ -40,7 +40,7 @@ export function registerUser(id: string, name: string, email: string, password: 
         users.push(newUser)
         writeUsersCSV(users)
 
-        console.log('\nUser registered successfully!\n')
+        console.log('\nUser registered successfully!')
     }
 }
 
@@ -50,26 +50,26 @@ export function listUsers(): void {
             // Lê o conteúdo do arquivo CSV.
             const content: string = fs.readFileSync(filePath, 'utf-8')
 
-            // Divide as linhas
+            // Divide as linhas.
             const usersArray: string[] = content.split('\n')
 
-            // Prepara os dados para o console.table
-            const formattedUsers = usersArray.map((line) => {
-                const [id, name, email, password, role, registerDate, changeDate, status] = line.split(',')
-                return {
-                    ID: id,
-                    Name: name,
-                    Email: email,
-                    Password: password,
-                    Role: role,
-                    'Register Date': registerDate,
-                    'Change Date': changeDate,
-                    Status: status === 'true' ? 'Active' : 'Inactive'
-                }
+            console.log('\n|------------------USERS-----------------|\n')
+
+            // Exibe os usuários no console.
+            usersArray.forEach((line) => {
+                const index = line.split(',')
+                
+                console.log(` ID: ${index[0]}`)
+                console.log(` Name: ${index[1]}`)
+                console.log(` Email: ${index[2]}`)
+                console.log(` Password: ${index[3]}`)
+                console.log(` Role: ${index[4]}`)
+                console.log(` Register Date: ${index[5]}`)
+                console.log(` Change Date: ${index[6]}`)
+                console.log(` Status: ${index[7]}\n`)
             })
 
-            // Exibe os dados em formato de tabela.
-            console.table(formattedUsers)
+            console.log('|----------------------------------------|')
         }
     } catch (err) {
         console.log(`Error: ${(err as Error).message}`)
