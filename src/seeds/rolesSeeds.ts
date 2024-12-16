@@ -1,6 +1,6 @@
 import { Roles, rolePermissions } from '../models/roles'
 
-// Permissões atribuídas ao Administrador.
+// Permissões definidas ao Administrador.
 export const adminPermissions: rolePermissions = {
     role           : Roles.ADMINISTRATOR,
     listProducts   : true,
@@ -10,7 +10,7 @@ export const adminPermissions: rolePermissions = {
     deleteProduct  : true,
 }
 
-// Permissões atribuídas ao Convidado.
+// Permissões definidas ao Convidado.
 export const guestPermissions: rolePermissions = {
     role           : Roles.GUEST,
     listProducts   : true,
@@ -20,8 +20,8 @@ export const guestPermissions: rolePermissions = {
     deleteProduct  : false,
 }
 
-// Permissões atribuídas ao Professor.
-const teachPermissions: rolePermissions = {
+// Permissões definidas ao Professor.
+export const teachPermissions: rolePermissions = {
     role           : Roles.GUEST,
     listProducts   : true,
     listProductsId : true,
