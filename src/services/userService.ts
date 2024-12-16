@@ -141,3 +141,7 @@ export function listUserById(id: string): void {
         console.log(`Error: ${(err as Error).message}`) // Trata qualquer erro e exibe a mensagem de erro no console.
     }
 }
+
+export function deleteUserById(id: string): void {
+    
+}
