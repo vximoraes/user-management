@@ -1,5 +1,5 @@
-import { registerUser } from "../services/userService"
-import { adminPermissions, guestPermissions, teachPermissions} from "./rolesSeeds"
+import { registerUser } from '../services/userService'
+import { adminPermissions, guestPermissions, teachPermissions} from './rolesSeeds'
 
 // Função para registrar os usuários seeds.
 export function seedUsers(): void {
