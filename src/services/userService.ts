@@ -1,11 +1,14 @@
 import fs from 'fs'
 import { v4 as uuid } from 'uuid'
 import bcrypt from 'bcrypt'
-import { users, writeUsersCSV, filePath } from './csvService'
+import { filePath, writeUsersCSV } from './csvService'
 import { User } from '../models/user'
 import { rolePermissions } from '../models/roles'
 import * as validacoesUsuario from '../validations/userValidations'
 
+export let users: User[] = [] // Array que armazenará os dados dos usuários.
+
+// Função para cadastrar um novo usuário. 
 export function registerUser(name: string, email: string, password: string, role: rolePermissions, status: boolean, id: string = uuid()): void { // O ID é gerado automaticamente com o uuid() se não for passado.
     // Cria um novo objeto de usuário com as informações fornecidas.
     let newUser: User = {
@@ -63,6 +66,7 @@ export function registerUser(name: string, email: string, password: string, role
     }
 }
 
+// // Função para listar todos os usuários.
 export function listUsers(): void {
     try {
         // Verifica se o arquivo CSV existe.
@@ -98,6 +102,7 @@ export function listUsers(): void {
     }
 }
 
+// Função para listar um usuário pelo ID.
 export function listUserById(id: string): void {
     try {
         // Verifica se o arquivo CSV existe.
@@ -132,7 +137,7 @@ export function listUserById(id: string): void {
 
             // Caso nenhum usuário seja encontrado, exibe uma mensagem.
             if (!userFound) {
-                console.log(`\nUsuário com ID '${id}' não encontrado.\n`)
+                console.log(`\nUsuário com ID '${id}' não encontrado.`)
             }
         } else {
             console.log(`\nArquivo não encontrado: ${filePath}\n`) // Exibe uma mensagem caso o arquivo CSV não seja encontrado.
@@ -142,6 +147,52 @@ export function listUserById(id: string): void {
     }
 }
 
-export function deleteUserById(id: string): void {
-    
-}
+// Função para excluir um usuário pelo ID.
+export function deleteUserById(id: string): void {  
+    try {  
+        // Ler o conteúdo do arquivo CSV.
+        const fileContent = fs.readFileSync(filePath, 'utf-8') 
+        
+        // Dividir o conteúdo em linhas.  
+        const lines = fileContent.split('\n')
+
+        // Filtrar as linhas, removendo a linha correspondente ao ID fornecido.  
+        const updatedLines = lines.filter(line => {  
+            const columns = line.split(',')
+            return columns[0] !== id // ID do usuário na primeira coluna.  
+        })  
+
+        // Se o ID não for encontrado, exibe uma mensagem. 
+        if (updatedLines.length === lines.length) {  
+            console.log(`\nUsuário com ID '${id}' não encontrado.`)
+            return
+        }
+
+        // Limpa o arquivo CSV antes de escrever os dados atualizados.  
+        fs.writeFileSync(filePath, '', 'utf-8')  
+
+        // Reescrever o arquivo CSV com as linhas atualizadas.  
+        fs.writeFileSync(filePath, updatedLines.join('\n'), 'utf-8')
+        console.log(`\nUsuário com ID '${id}' removido com sucesso.`)
+
+        // Atualizar o array de usuários.  
+        users = updatedLines.map(line => {  
+            const index = line.split(',')  
+            return {  
+                id: index[0],  
+                name: index[1],  
+                email: index[2],  
+                password: index[3],  
+                role: { role: index[4] },  
+                registerDate: new Date(index[5]),  
+                changeDate: new Date(index[6]),  
+                status: index[7] === 'true'   
+            } as User
+        }) 
+
+        // Escrever os usuários atualizados no CSV.
+        writeUsersCSV(users)  
+    } catch (err) {  
+        console.log(`Erro ao excluir usuário: ${(err as Error).message}`)
+    }  
+} 
