@@ -41,8 +41,7 @@ user-management/
     └── index.ts  
 │  
 ├── .gitignore  
-├── LICENSE  
-├── notes.txt  
+├── LICENSE    
 ├── package-lock.json  
 ├── package.json  
 ├── README.md  
