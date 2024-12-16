@@ -87,6 +87,11 @@ npm install
 npm run build
 ```
 
+5. Vá para o diretório dist/:
+```bash
+cd dist/
+```
+
 ## 📋 Comandos da CLI
 Aqui estão os comandos disponíveis na aplicação CLI, que podem ser executados após rodar o projeto:
 
@@ -94,7 +99,7 @@ Aqui estão os comandos disponíveis na aplicação CLI, que podem ser executado
 Este comando permite adicionar um novo usuário ao banco de dados. Você deve fornecer os dados do usuário, como ```nome```, ```e-mail```, ```senha```, ```papel``` e ```status```.
 
 ```bash
-node dist/index.js newUser "User" "user@email.com" "#User123" "Administrador" true
+node index.js newUser "User" "user@email.com" "#User123" "Administrador" true
 ```
 - **name:** Nome do usuário (mínimo de 3 caracteres).
 - **email:** E-mail válido.
@@ -106,21 +111,22 @@ node dist/index.js newUser "User" "user@email.com" "#User123" "Administrador" tr
 Este comando exibe todos os usuários cadastrados.
 
 ```bash
-node dist/index.js listUsers
+node index.js listUsers
 ```
 
 ### 3. Listar um usuário específico
 Este comando exibe os dados de um usuário específico, dado o seu identificador UUID.
 
 ```bash
-node dist/index.js listUser "id-do-usuario"
+node index.js listUser "id-do-usuario"
 ```
 
 ### 4. Atualizar os dados de um usuário
 Este comando permite alterar as informações de um usuário existente. Você pode modificar ```nome```, ```e-mail```, ```senha```, ```papel``` ou ```status```.
 
+
 ```bash
-node dist/index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com" -p "#UserAtualizado123" -r "Professor" -s false
+node index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com" -p "#UserAtualizado123" -r "Professor" -s false
 ```
 
 - **id:** Identificador único do usuário.
@@ -134,5 +140,5 @@ node dist/index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com
 Este comando remove um usuário do banco de dados, com base no seu identificador único.
 
 ```bash
-node dist/index.js deleteUser "id-do-usuario"
+node index.js deleteUser "id-do-usuario"
 ```
