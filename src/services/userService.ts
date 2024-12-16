@@ -76,7 +76,6 @@ export function listUsers(): void {
 
             // Divide o conteúdo do arquivo em linhas.
             const usersArray: string[] = content.split('\n')
-            console.log('|----------------------------------------|')
             console.log('\n|----------USUÁRIOS CADASTRADOS----------|\n')
 
             // Exibe os usuários no console.
