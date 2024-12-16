@@ -3,8 +3,6 @@ import { User } from '../models/user'
 
 export const filePath: string = './data/users.csv' // Caminho para o arquivo CSV onde os dados dos usuários serão armazenados.
 
-export let users: User[] = [] // Array que armazenará os dados dos usuários.
-
 export function writeUsersCSV(users: User[]): void {
     try {
         // Converter os usuários para string no formato CSV.
