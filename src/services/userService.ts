@@ -62,7 +62,7 @@ export function registerUser(name: string, email: string, password: string, role
             writeUsersCSV(users)
         })
         // Exibe uma mensagem de sucesso no console.
-        console.log('\nUser registered successfully!')
+        console.log('\nUsuário registrado com sucesso!\n')
     }
 }
 
@@ -76,20 +76,20 @@ export function listUsers(): void {
 
             // Divide o conteúdo do arquivo em linhas.
             const usersArray: string[] = content.split('\n')
-
-            console.log('\n|------------REGISTERED USERS------------|\n')
+            console.log('|----------------------------------------|')
+            console.log('\n|----------USUÁRIOS CADASTRADOS----------|\n')
 
             // Exibe os usuários no console.
             usersArray.forEach((line) => {
                 const index = line.split(',') // Divide cada linha em um array, onde cada elemento é separado por vírgula.
                 
                 console.log(` ID: ${index[0]}`)
-                console.log(` Name: ${index[1]}`)
-                console.log(` Email: ${index[2]}`)
-                console.log(` Password: ${index[3]}`)
-                console.log(` Role: ${index[4]}`)
-                console.log(` Register Date: ${index[5]}`)
-                console.log(` Change Date: ${index[6]}`)
+                console.log(` Nome: ${index[1]}`)
+                console.log(` E-mail: ${index[2]}`)
+                console.log(` Senha: ${index[3]}`)
+                console.log(` Papel: ${index[4]}`)
+                console.log(` Data de cadastro: ${index[5]}`)
+                console.log(` Data da última alteração: ${index[6]}`)
                 console.log(` Status: ${index[7]}\n`)
             })
 
@@ -98,7 +98,7 @@ export function listUsers(): void {
             console.log(`\nArquivo não encontrado: ${filePath}\n`) // Exibe uma mensagem caso o arquivo CSV não seja encontrado.
         }
     } catch (err) {
-        console.log(`Error: ${(err as Error).message}`) // Trata qualquer erro e exibe a mensagem de erro no console.
+        console.log(`Erro: ${(err as Error).message}`) // Trata qualquer erro e exibe a mensagem de erro no console.
     }
 }
 
@@ -122,14 +122,14 @@ export function listUserById(id: string): void {
 
                 if (index[0] === id) { // Verifica se o primeiro elemento (ID) da linha é igual ao ID fornecido.
                     userFound = true // Define que o usuário foi encontrado.
-                    console.log(`\n|---------REGISTERED USERS BY ID---------|\n`)
+                    console.log(`\n|--------USUÁRIOS CADASTRADOS ID---------|\n`)
                     console.log(` ID: ${index[0]}`)
-                    console.log(` Name: ${index[1]}`)
-                    console.log(` Email: ${index[2]}`)
-                    console.log(` Password: ${index[3]}`)
-                    console.log(` Role: ${index[4]}`)
-                    console.log(` Register Date: ${index[5]}`)
-                    console.log(` Change Date: ${index[6]}`)
+                    console.log(` Nome: ${index[1]}`)
+                    console.log(` E-mail: ${index[2]}`)
+                    console.log(` Senha: ${index[3]}`)
+                    console.log(` Papel: ${index[4]}`)
+                    console.log(` Data de cadastro: ${index[5]}`)
+                    console.log(` Data da última alteração: ${index[6]}`)
                     console.log(` Status: ${index[7]}\n`)
                     console.log('|----------------------------------------|')
                 }
@@ -143,7 +143,7 @@ export function listUserById(id: string): void {
             console.log(`\nArquivo não encontrado: ${filePath}\n`) // Exibe uma mensagem caso o arquivo CSV não seja encontrado.
         }
     } catch (err) {
-        console.log(`Error: ${(err as Error).message}`) // Trata qualquer erro e exibe a mensagem de erro no console.
+        console.log(`Erro: ${(err as Error).message}`) // Trata qualquer erro e exibe a mensagem de erro no console.
     }
 }
 
@@ -190,9 +190,50 @@ export function deleteUserById(id: string): void {
             } as User
         }) 
 
-        // Escrever os usuários atualizados no CSV.
+        // Atualiza o arquivo CSV.
         writeUsersCSV(users)  
     } catch (err) {  
         console.log(`Erro ao excluir usuário: ${(err as Error).message}`)
     }  
 } 
+
+export function updateUserData(id: string, name?: string, email?: string, password?: string, role?: rolePermissions, status?: boolean): void {
+    // Ler o conteúdo do arquivo CSV.
+    const fileContent = fs.readFileSync(filePath, 'utf-8')
+    const lines = fileContent.split('\n')
+
+    // Encontrar o índice do usuário.
+    const userIndex = lines.findIndex(line => line.split(',')[0] === id)
+
+    // Se o usuário não for encontrado, exibe uma mensagem.
+    if (userIndex === -1) {
+        console.log(`Usuário com ID '${id}' não encontrado.`)
+        return
+    }
+
+    // Obter dados do usuário.
+    const userData = lines[userIndex].split(',')
+
+    // Atualizar os dados fornecidos.
+    if (name) userData[1] = name
+    if (email) userData[2] = email
+    if (role) userData[4] = role.role
+    if (status !== undefined) userData[7] = status.toString()
+    userData[6] = new Date().toISOString()  // Atualiza a data de alteração.
+
+    // Se for passada uma nova senha, ela é criptografada.
+    if (password) {
+        try {
+            userData[3] = bcrypt.hashSync(password, 10)
+        } catch (err) {
+            console.log('Erro ao criptografar a senha:', err)
+            return
+        }
+    }
+
+    // Atualiza o arquivo CSV.
+    lines[userIndex] = userData.join(',')
+    fs.writeFileSync(filePath, lines.join('\n'), 'utf-8')
+
+    console.log('Dados do usuário atualizados com sucesso!')
+}
