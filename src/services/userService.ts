@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { v4 as uuid } from 'uuid'
+import bcrypt from 'bcrypt'
 import { users, writeUsersCSV, filePath } from './csvService'
 import { User } from '../models/user'
 import { rolePermissions } from '../models/roles'
@@ -41,12 +42,22 @@ export function registerUser(name: string, email: string, password: string, role
 
     // Caso todos os dados sejam válidos, o usuário é registrado.
     if(isValid) {
-        // Adiciona o novo usuário ao array de usuários.
-        users.push(newUser)
+        // Criptografa a senha usando bcrypt antes de armazenar o usuário.
+        bcrypt.hash(newUser.password, 10, (err, hashedPassword) => {
+            if (err) {
+                console.log('Erro ao criptografar a senha:', err)
+                return
+            }
 
-        // Escreve a lista de usuários atualizada no arquivo CSV.
-        writeUsersCSV(users)
+            // Substitui a senha original pela senha criptografada.
+            newUser.password = hashedPassword
 
+            // Adiciona o novo usuário ao array de usuários.
+            users.push(newUser)
+
+            // Escreve a lista de usuários atualizada no arquivo CSV.
+            writeUsersCSV(users)
+        })
         // Exibe uma mensagem de sucesso no console.
         console.log('\nUser registered successfully!')
     }
