@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { User } from '../models/user'
 
-export const filePath: string = './data/users.csv' // Caminho para o arquivo CSV onde os dados dos usuários serão armazenados.
+export const filePath: string = '../data/users.csv' // Caminho para o arquivo CSV onde os dados dos usuários serão armazenados.
 
 export function writeUsersCSV(users: User[]): void {
     try {
@@ -19,6 +19,6 @@ export function writeUsersCSV(users: User[]): void {
 
         fs.writeFileSync(filePath, userString, 'utf-8')
     } catch (err) {
-        console.log(`Error: ${(err as Error).message}`) // Trata qualquer erro e exibe a mensagem de erro no console.
+        console.log(`Erro: ${(err as Error).message}`) // Trata qualquer erro e exibe a mensagem de erro no console.
     }
 }
