@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { registerUser } from "../services/userService"
 import { adminPermissions, guestPermissions, teachPermissions} from "./rolesSeeds"
 
