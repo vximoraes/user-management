@@ -4,7 +4,7 @@ Desenvolvimento de uma aplicação CLI (Command Line Interface) em TypeScript pa
 
 ## 🛠️ Tecnologias
 
-## 📁 Estrutura de arquivos e pastas
+## 📁 Estrutura de Arquivos e Pastas
 ```graphql
 user-management/  
 │  
@@ -88,4 +88,52 @@ npm install
 npm run build
 ```
 
-5. 
+## 📋 Comandos da CLI
+Aqui estão os comandos disponíveis na aplicação CLI, que podem ser executados após rodar o projeto:
+
+### 1. Cadastrar um novo usuário
+Este comando permite adicionar um novo usuário ao banco de dados. Você deve fornecer os dados do usuário, como ```nome```, ```e-mail```, ```senha```, ```papel``` e ```status```.
+
+```bash
+node dist/index.js newUser "User" "user@email.com" "#User123" "Administrador" true
+```
+- **name:** Nome do usuário (mínimo de 3 caracteres).
+- **email:** E-mail válido.
+- **password:** Senha válida (mínimo de 8 caracteres, contendo letras maiúsculas, minúsculas, números e caracteres especiais).
+- **role:** Papel do usuário (Administrador, Convidado ou Professor).
+- - **status:** Status do usuário (ativo: true, inativo: false)
+
+### 2. Listar todos os usuários
+Este comando exibe todos os usuários cadastrados.
+
+```bash
+node dist/index.js listUsers
+```
+
+### 3. Listar um usuário específico
+Este comando exibe os dados de um usuário específico, dado o seu identificador UUID.
+
+```bash
+node dist/index.js listUser "id-do-usuario"
+```
+
+### 4. Atualizar os dados de um usuário
+Este comando permite alterar as informações de um usuário existente. Você pode modificar ```nome```, ```e-mail```, ```senha```, ```papel``` ou ```status```.
+
+```bash
+node dist/index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com" -p "NovaSenha@123" -r "Professor" -s false
+```
+
+- **id:** Identificador único do usuário.
+- **name:** Novo nome para o usuário.
+- **email:** Novo e-mail para o usuário.
+- **password:** Nova senha para o usuário.
+- **role:** Novo papel para o usuário.
+- **status:** Novo status para o usuário.
+
+### 5. Deletar um usuário
+Este comando remove um usuário do banco de dados, com base no seu identificador único.
+
+```bash
+node dist/index.js deleteUser "id-do-usuario"
+```
