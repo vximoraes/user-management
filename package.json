@@ -12,6 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ts-node": "^10.9.2"
+    "fs": "^0.0.1-security",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "uuid": "^11.0.3"
   }
 }
