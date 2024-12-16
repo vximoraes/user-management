@@ -4,6 +4,7 @@ import { users } from "./csvService"
 import { writeUsersCSV } from "./csvService"
 import fs from 'fs'
 import { filePath } from "./csvService"
+import * as validacoesUsuario from '../validations/userValidations'
 
 export function registerUser(id: string, name: string, email: string, password: string, role: rolePermissions, status: boolean): void {
     let newUser: User = {
@@ -17,33 +18,59 @@ export function registerUser(id: string, name: string, email: string, password: 
         status      : status
     }
 
-    users.push(newUser)
+    let isValid: boolean = true
 
-    writeUsersCSV(users)
+    // Validando os dados antes de cadastrar
+    if (!validacoesUsuario.validateName(newUser.name)) {
+        console.log('Nome inválido. Deve ter entre 3 e 25 caracteres.')
+        isValid = false
+    }
+
+    if (!validacoesUsuario.validateEmail(newUser.email)) {
+        console.log('E-mail inválido.') 
+        isValid = false
+    }
+
+    if (!validacoesUsuario.validatePassword(newUser.password)) {
+        console.log('A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.')
+        isValid = false
+    }
+
+    if(isValid) {
+        users.push(newUser)
+        writeUsersCSV(users)
+
+        console.log('\nUser registered successfully!\n')
+    }
 }
 
 export function listUsers(): void {
     try {
-        // Lê o conteúdo do arquivo CSV.
-        const content = fs.readFileSync(filePath, 'utf-8')
+        if(fs.existsSync(filePath)) {
+            // Lê o conteúdo do arquivo CSV.
+            const content: string = fs.readFileSync(filePath, 'utf-8')
 
-        // Divide as linhas
-        const usersArray = content.split('\n')
+            // Divide as linhas
+            const usersArray: string[] = content.split('\n')
 
-        // Exibe os usuários no console.
-        usersArray.forEach((line) => {
-            const index = line.split(',')
+            // Prepara os dados para o console.table
+            const formattedUsers = usersArray.map((line) => {
+                const [id, name, email, password, role, registerDate, changeDate, status] = line.split(',')
+                return {
+                    ID: id,
+                    Name: name,
+                    Email: email,
+                    Password: password,
+                    Role: role,
+                    'Register Date': registerDate,
+                    'Change Date': changeDate,
+                    Status: status === 'true' ? 'Active' : 'Inactive'
+                }
+            })
 
-            console.log(`ID: ${index[0]}`)
-            console.log(`Name: ${index[1]}`)
-            console.log(`Email: ${index[2]}`)
-            console.log(`Password: ${index[3]}`)
-            console.log(`Role: ${index[4]}`)
-            console.log(`Register Date: ${index[5]}`)
-            console.log(`Change Date: ${index[6]}`)
-            console.log(`Status: ${index[7]}`)
-            console.log('\n')
-        })
+            // Exibe os dados em formato de tabela.
+            console.table(formattedUsers)
+        }
     } catch (err) {
         console.log(`Error: ${(err as Error).message}`)
     }
