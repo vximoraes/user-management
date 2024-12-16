@@ -2,7 +2,7 @@
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 // Padrão da senha.
-const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/
 
 // Validação nome.
 export function validateName(name: string): boolean {
