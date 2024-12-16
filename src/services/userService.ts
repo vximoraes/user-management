@@ -3,13 +3,16 @@ import { v4 as uuid } from 'uuid'
 import bcrypt from 'bcrypt'
 import { filePath, writeUsersCSV } from './csvService'
 import { User } from '../models/user'
-import { rolePermissions } from '../models/roles'
-import * as validacoesUsuario from '../validations/userValidations'
+import { rolePermissions, Roles } from '../models/roles'
+import * as userValidations from '../validations/userValidations'
 
 export let users: User[] = [] // Array que armazenará os dados dos usuários.
 
 // Função para cadastrar um novo usuário. 
 export function registerUser(name: string, email: string, password: string, role: rolePermissions, status: boolean, id: string = uuid()): void { // O ID é gerado automaticamente com o uuid() se não for passado.
+    // Carrega os usuários do CSV.
+    loadUsers()
+    
     // Cria um novo objeto de usuário com as informações fornecidas.
     let newUser: User = {
         id          : id,
@@ -26,19 +29,19 @@ export function registerUser(name: string, email: string, password: string, role
     let isValid: boolean = true
 
     // Validação do nome do usuário.
-    if (!validacoesUsuario.validateName(newUser.name)) {
+    if (!userValidations.validateName(newUser.name)) {
         console.log('Nome inválido. Deve ter entre 3 e 25 caracteres.')
         isValid = false
     }
 
     // Validação do e-mail do usuário.
-    if (!validacoesUsuario.validateEmail(newUser.email)) {
+    if (!userValidations.validateEmail(newUser.email)) {
         console.log('E-mail inválido.') 
         isValid = false
     }
 
     // Validação da senha do usuário.
-    if (!validacoesUsuario.validatePassword(newUser.password)) {
+    if (!userValidations.validatePassword(newUser.password)) {
         console.log('A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.')
         isValid = false
     }
@@ -48,7 +51,7 @@ export function registerUser(name: string, email: string, password: string, role
         // Criptografa a senha usando bcrypt antes de armazenar o usuário.
         bcrypt.hash(newUser.password, 10, (err, hashedPassword) => {
             if (err) {
-                console.log('Erro ao criptografar a senha:', err)
+                console.log(`\nErro ao criptografar a senha: ${err}\n`)
                 return
             }
 
@@ -67,7 +70,7 @@ export function registerUser(name: string, email: string, password: string, role
 }
 
 // // Função para listar todos os usuários.
-export function listUsers(): void {
+export function listAllUsers(): void {
     try {
         // Verifica se o arquivo CSV existe.
         if(fs.existsSync(filePath)) {
@@ -76,6 +79,7 @@ export function listUsers(): void {
 
             // Divide o conteúdo do arquivo em linhas.
             const usersArray: string[] = content.split('\n')
+            
             console.log('\n|----------USUÁRIOS CADASTRADOS----------|\n')
 
             // Exibe os usuários no console.
@@ -92,7 +96,7 @@ export function listUsers(): void {
                 console.log(` Status: ${index[7]}\n`)
             })
 
-            console.log('|----------------------------------------|')
+            console.log('|----------------------------------------|\n')
         } else {
             console.log(`\nArquivo não encontrado: ${filePath}\n`) // Exibe uma mensagem caso o arquivo CSV não seja encontrado.
         }
@@ -130,13 +134,13 @@ export function listUserById(id: string): void {
                     console.log(` Data de cadastro: ${index[5]}`)
                     console.log(` Data da última alteração: ${index[6]}`)
                     console.log(` Status: ${index[7]}\n`)
-                    console.log('|----------------------------------------|')
+                    console.log('|----------------------------------------|\n')
                 }
             })
 
             // Caso nenhum usuário seja encontrado, exibe uma mensagem.
             if (!userFound) {
-                console.log(`\nUsuário com ID '${id}' não encontrado.`)
+                console.log(`\nUsuário com ID '${id}' não encontrado.\n`)
             }
         } else {
             console.log(`\nArquivo não encontrado: ${filePath}\n`) // Exibe uma mensagem caso o arquivo CSV não seja encontrado.
@@ -163,7 +167,7 @@ export function deleteUserById(id: string): void {
 
         // Se o ID não for encontrado, exibe uma mensagem. 
         if (updatedLines.length === lines.length) {  
-            console.log(`\nUsuário com ID '${id}' não encontrado.`)
+            console.log(`\nUsuário com ID '${id}' não encontrado.\n`)
             return
         }
 
@@ -172,7 +176,7 @@ export function deleteUserById(id: string): void {
 
         // Reescrever o arquivo CSV com as linhas atualizadas.  
         fs.writeFileSync(filePath, updatedLines.join('\n'), 'utf-8')
-        console.log(`\nUsuário com ID '${id}' removido com sucesso.`)
+        console.log(`\nUsuário com ID '${id}' removido com sucesso.\n`)
 
         // Atualizar o array de usuários.  
         users = updatedLines.map(line => {  
@@ -192,11 +196,11 @@ export function deleteUserById(id: string): void {
         // Atualiza o arquivo CSV.
         writeUsersCSV(users)  
     } catch (err) {  
-        console.log(`Erro ao excluir usuário: ${(err as Error).message}`)
+        console.log(`\nErro ao excluir usuário: ${(err as Error).message}\n`)
     }  
 } 
 
-export function updateUserData(id: string, name?: string, email?: string, password?: string, role?: rolePermissions, status?: boolean): void {
+export function updateUserData(id: string, name?: string, email?: string, password?: string, role?: Roles, status?: boolean): void {
     // Ler o conteúdo do arquivo CSV.
     const fileContent = fs.readFileSync(filePath, 'utf-8')
     const lines = fileContent.split('\n')
@@ -206,17 +210,35 @@ export function updateUserData(id: string, name?: string, email?: string, passwo
 
     // Se o usuário não for encontrado, exibe uma mensagem.
     if (userIndex === -1) {
-        console.log(`Usuário com ID '${id}' não encontrado.`)
+        console.log(`\nUsuário com ID '${id}' não encontrado.\n`)
         return
     }
 
     // Obter dados do usuário.
     const userData = lines[userIndex].split(',')
 
+    // Validação do nome do usuário.
+    if (name && !userValidations.validateName(name)) {
+        console.log('Nome inválido. Deve ter entre 3 e 25 caracteres.')
+        return
+    }
+
+    // Validação do e-mail do usuário.
+    if (email && !userValidations.validateEmail(email)) {
+        console.log('E-mail inválido.')
+        return
+    }
+
+    // Validação da senha do usuário.
+    if (password && !userValidations.validatePassword(password)) {
+        console.log('A senha deve ter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.')
+        return
+    }
+
     // Atualizar os dados fornecidos.
     if (name) userData[1] = name
     if (email) userData[2] = email
-    if (role) userData[4] = role.role
+    if (role) userData[4] = role.toString()
     if (status !== undefined) userData[7] = status.toString()
     userData[6] = new Date().toISOString()  // Atualiza a data de alteração.
 
@@ -225,7 +247,7 @@ export function updateUserData(id: string, name?: string, email?: string, passwo
         try {
             userData[3] = bcrypt.hashSync(password, 10)
         } catch (err) {
-            console.log('Erro ao criptografar a senha:', err)
+            console.log(`\nErro ao criptografar a senha: ${err}\n`)
             return
         }
     }
@@ -234,5 +256,35 @@ export function updateUserData(id: string, name?: string, email?: string, passwo
     lines[userIndex] = userData.join(',')
     fs.writeFileSync(filePath, lines.join('\n'), 'utf-8')
 
-    console.log('Dados do usuário atualizados com sucesso!')
+    console.log('\nDados do usuário atualizados com sucesso!\n')
 }
+
+export function loadUsers(): void {  
+    // Verifica se o arquivo CSV existe. 
+    if (fs.existsSync(filePath)) {  
+        // Lê o conteúdo do arquivo CSV.  
+        const content: string = fs.readFileSync(filePath, 'utf-8')  
+
+        // Divide o conteúdo do arquivo em linhas.  
+        const usersArray: string[] = content.split('\n').filter(line => line.trim() !== '')  
+
+        // Atualizar o array de usuários.  
+        users = usersArray.map((line) => {  
+            const index = line.split(',')  
+
+            return {  
+                id: index[0],  
+                name: index[1],  
+                email: index[2],  
+                password: index[3],  
+                role: { role: index[4] }, 
+                registerDate: new Date(index[5]),  
+                changeDate: new Date(index[6]),  
+                status: index[7] === 'true'  
+            } as User  
+        })  
+    } else {  
+        // Se o arquivo CSV não existir, inicializa users como um array vazio.   
+        users = []  
+    }  
+} 
