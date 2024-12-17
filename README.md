@@ -49,14 +49,12 @@ user-management/
 └── tsconfig.json
 ```
 
-## ✨ Recursos
-
-- Gerenciamento de usuários.
-- Validação de dados de usuários (nome, e-mail, senha).
-- Armazenamento em arquivo CSV.
-- Funções para manipulação de dados de usuários: cadastrar, listar, listar por ID, alterar e deletar.
-- Permissões baseadas nos papéis dos usuários.
-- Interface CLI para interação com o sistema.
+## ✨ Features
+- **Input de Dados:** O sistema permite que você forneça os dados do usuário, como `nome`, `e-mail`, `senha`, `papel` e `status`.
+- **Criptografia de Senha:** As senhas fornecidas durante o cadastro ou atualização de usuário são criptografadas antes de serem armazenadas, garantindo maior segurança.
+- **Validação de Dados:** O sistema valida os dados inseridos, como formato de e-mail e complexidade da senha (mínimo de 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais).
+- **Manipulação de Dados:** Permite realizar operações, como `adicionar`, `listar`, `atualizar` e `deletar` usuários, armazenando os dados em um arquivo CSV.
+- **Permissões de Acesso:** Dependendo do papel atribuído ao usuário (`Administrador`, `Convidado` ou `Professor`), são concedidas permissões específicas para gerenciar usuários.
 
 ## 🏃‍♂️ Rodando localmente
 
