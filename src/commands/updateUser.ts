@@ -14,6 +14,12 @@ updateUser
     .option('-s, --status <status>', "Novo status do usuário (ex: 'true' para ativo, 'false' para inativo)")
     .action((ID, options) => {
         try {
+            // Se o papel foi fornecido, valida se é um dos três papéis permitidos.
+            if (options.role && !['admin', 'convidado', 'professor'].includes(options.role)) {
+                console.log('\nInsira um papel válido: admin, convidado ou professor.\n')
+                return
+            }
+
             updateUserData(ID, options.name, options.email, options.password, options.role, options.status === 'true')
         } catch (err) {
             console.log('Erro ao atualizar os dados do usuário:', err)
