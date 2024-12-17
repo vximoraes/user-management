@@ -114,7 +114,7 @@ node index.js listUsers
 ```
 
 ### 3. Listar um usuário específico
-Este comando exibe os dados de um usuário específico, dado o seu identificador UUID.
+Este comando exibe os dados de um usuário específico, dado o seu identificador único.
 
 ```bash
 node index.js listUser "id-do-usuario"
