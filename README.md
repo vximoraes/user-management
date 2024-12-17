@@ -11,11 +11,7 @@ Desenvolvimento de uma aplicação CLI (Command Line Interface) em TypeScript pa
 user-management/  
 │  
 ├── data/  
-│   └── users.csv  
-│  
-├── dist/  
-│  
-├── node_modules/  
+│   └── users.csv   
 │  
 └── src/  
     ├── commands/  
