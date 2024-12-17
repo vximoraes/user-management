@@ -5,18 +5,15 @@ export const filePath: string = '../data/users.csv' // Caminho para o arquivo CS
 
 export function writeUsersCSV(users: User[]): void {
     try {
-        // Converte os dados dos usuários para uma string no formato CSV, onde cada campo é separado por vírgula.
-        const userString = users.map(user => [
-            user.id, 
-            user.name, 
-            user.email, 
-            user.password, 
-            user.role, 
-            user.registerDate.toISOString(), 
-            user.changeDate.toISOString(), 
-            user.status
-        ].join(',')).join('\n')     
+        // Cria uma string CSV vazia
+        let userString: string = ''
 
+        // Itera sobre os usuários e adiciona suas informações à string CSV
+        users.forEach(user => {
+            userString += `${user.id},${user.name},${user.email},${user.password},${user.role},${user.registerDate.toISOString()},${user.changeDate.toISOString()},${user.status}\n`
+        })
+
+        // Escreve a string CSV no arquivo
         fs.writeFileSync(filePath, userString, 'utf-8')
     } catch (err) {
         console.log(`Erro: ${(err as Error).message}`) // Trata qualquer erro e exibe a mensagem de erro no console.
