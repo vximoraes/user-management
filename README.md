@@ -1,4 +1,4 @@
-# Gerenciamento de Usuários - CLI
+# 🖥️ Gerenciamento de Usuários - CLI
 Desenvolvimento de uma aplicação CLI (Command Line Interface) em TypeScript para gerenciar um banco de dados simples de usuários. O projeto envolve validação de dados, criptografia de senha e manipulação de dados tanto na memória quanto em um arquivo CSV.
 
 ![user-management](https://github.com/user-attachments/assets/67f14eb1-9a3b-44bf-ade9-e959ba1ccd97)
@@ -54,10 +54,10 @@ user-management/
 - **Input de Dados:** O sistema permite que você forneça os dados do usuário, como `nome`, `e-mail`, `senha`, `papel` e `status`.
 - **Criptografia de Senha:** As senhas fornecidas durante o cadastro ou atualização de usuário são criptografadas antes de serem armazenadas, garantindo maior segurança.
 - **Validação de Dados:** O sistema valida os dados inseridos, como formato de e-mail e complexidade da senha (mínimo de 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais).
-- **Manipulação de Dados:** Permite realizar operações, como `adicionar`, `listar`, `atualizar` e `deletar` usuários, armazenando os dados em um arquivo CSV.
+- **Manipulação de Dados:** Permite realizar operações, como `adicionar`, `listar`, `listar por id`, `atualizar` e `deletar` usuários, armazenando os dados em um arquivo CSV.
 - **Permissões de Acesso:** Dependendo do papel atribuído ao usuário (`Administrador`, `Convidado` ou `Professor`), são concedidas permissões específicas para gerenciar usuários.
 
-## 🏃‍♂️ Rodando localmente
+## 🏃‍♂️ Rodando Localmente
 
 ### Pré-requisitos
 
