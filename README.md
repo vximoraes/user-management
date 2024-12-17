@@ -99,12 +99,12 @@ Aqui estão os comandos disponíveis na aplicação CLI, que podem ser executado
 Este comando permite adicionar um novo usuário ao banco de dados. Você deve fornecer os dados do usuário, como ```nome```, ```e-mail```, ```senha```, ```papel``` e ```status```.
 
 ```bash
-node index.js newUser "User" "user@email.com" "#User123" "Administrador" true
+node index.js newUser "User" "user@email.com" "#User123" "admin" true
 ```
 - **name:** Nome do usuário (mínimo de 3 caracteres).
 - **email:** E-mail válido.
 - **password:** Senha válida (mínimo de 8 caracteres, contendo letras maiúsculas, minúsculas, números e caracteres especiais).
-- **role:** Papel do usuário (Administrador, Convidado ou Professor).
+- **role:** Papel do usuário (admin, convidado ou professor).
 - **status:** Status do usuário (ativo: true, inativo: false)
 
 ### 2. Listar todos os usuários
@@ -126,7 +126,7 @@ Este comando permite alterar as informações de um usuário existente. Você po
 
 
 ```bash
-node index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com" -p "#UserAtualizado123" -r "Professor" -s false
+node index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com" -p "#UserAtualizado123" -r "professor" -s false
 ```
 
 - **id:** Identificador único do usuário.
