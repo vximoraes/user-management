@@ -1,6 +1,7 @@
 # Gerenciamento de Usuários - CLI
-
 Desenvolvimento de uma aplicação CLI (Command Line Interface) em TypeScript para gerenciar um banco de dados simples de usuários. O projeto envolve validação de dados, criptografia de senha e manipulação de dados tanto na memória quanto em um arquivo CSV.
+
+![user-management](https://github.com/user-attachments/assets/9f6f57d8-d996-4847-8c6c-3de52e83abd4)
 
 ## 🛠️ Tecnologias
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
