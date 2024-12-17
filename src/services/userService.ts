@@ -78,7 +78,7 @@ export function listAllUsers(): void {
             const content: string = fs.readFileSync(filePath, 'utf-8')
 
             // Divide o conteúdo do arquivo em linhas.
-            const usersArray: string[] = content.split('\n')
+            const usersArray: string[] = content.trim().split('\n')
             
             console.log('\n|----------USUÁRIOS CADASTRADOS----------|\n')
 
@@ -114,7 +114,7 @@ export function listUserById(id: string): void {
             const content: string = fs.readFileSync(filePath, 'utf-8')
 
             // Divide o conteúdo do arquivo em linhas.
-            const usersArray: string[] = content.split('\n')
+            const usersArray: string[] = content.trim().split('\n')
 
             // Variável para indicar se o usuário foi encontrado.
             let userFound = false
