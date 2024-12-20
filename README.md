@@ -127,11 +127,11 @@ node index.js updateUser "id-do-usuario" -n "User Atualizado" -e "user.atualizad
 ```
 
 - **id-do-usuario:** Identificador único do usuário.
-- **name:** Novo nome para o usuário.
-- **email:** Novo e-mail para o usuário.
-- **password:** Nova senha para o usuário.
-- **role:** Novo papel para o usuário.
-- **status:** Novo status para o usuário.
+- **name(-n):** Novo nome para o usuário.
+- **email(-e):** Novo e-mail para o usuário.
+- **password(-p):** Nova senha para o usuário.
+- **role(-r):** Novo papel para o usuário.
+- **status(-s):** Novo status para o usuário.
 
 ### 5. Deletar um usuário
 Este comando remove um usuário do banco de dados, com base no seu identificador único.
