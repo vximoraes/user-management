@@ -116,16 +116,17 @@ Este comando exibe os dados de um usuário específico, dado o seu identificador
 ```bash
 node index.js listUser "id-do-usuario"
 ```
+- **id-do-usuario:** Identificador único do usuário.
 
 ### 4. Atualizar os dados de um usuário
 Este comando permite alterar as informações de um usuário existente. Você pode modificar ```nome```, ```e-mail```, ```senha```, ```papel``` ou ```status```.
 
 
 ```bash
-node index.js updateUser -n "User Atualizado" -e "user.atualizado@email.com" -p "#UserAtualizado123" -r "professor" -s false
+node index.js updateUser "id-do-usuario" -n "User Atualizado" -e "user.atualizado@email.com" -p "#UserAtualizado123" -r "professor" -s false
 ```
 
-- **id:** Identificador único do usuário.
+- **id-do-usuario:** Identificador único do usuário.
 - **name:** Novo nome para o usuário.
 - **email:** Novo e-mail para o usuário.
 - **password:** Nova senha para o usuário.
@@ -138,3 +139,5 @@ Este comando remove um usuário do banco de dados, com base no seu identificador
 ```bash
 node index.js deleteUser "id-do-usuario"
 ```
+
+- **id-do-usuario:** Identificador único do usuário.
